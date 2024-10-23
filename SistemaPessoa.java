@@ -29,6 +29,7 @@ class JanelaPrincipal extends JFrame {
         JMenuItem menuUsuarios = new JMenuItem("Usuários");
         menuUsuarios.addActionListener(e -> new JanelaCadastroUsuario().setVisible(true));
         JMenuItem menuPessoas = new JMenuItem("Pessoas");
+        menuPessoas.addActionListener(e -> new JanelaCadastroPessoa().setVisible(true));
         menuCadastro.add(menuUsuarios);
         menuCadastro.add(menuPessoas);
 
@@ -72,7 +73,7 @@ class JanelaCadastroUsuario extends JFrame {
 
     public JanelaCadastroUsuario() {
         setTitle("Cadastro de Usuário");
-        setSize(350, 300);
+        setSize(350, 250);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new GridBagLayout());
@@ -159,7 +160,6 @@ class JanelaCadastroUsuario extends JFrame {
         String senha = new String(campoSenha.getPassword());
         String email = campoEmail.getText();
         String status = (String) comboStatus.getSelectedItem();
-        // Aqui você pode adicionar a lógica para incluir o usuário
         JOptionPane.showMessageDialog(this, "Usuário incluído:\n" +
                 "Usuário: " + usuario + "\n" +
                 "Email: " + email + "\n" +
@@ -169,7 +169,6 @@ class JanelaCadastroUsuario extends JFrame {
 
     private void alterarUsuario() {
         String usuario = campoUsuario.getText();
-        // Aqui você pode adicionar a lógica para alterar o usuário
         JOptionPane.showMessageDialog(this, "Usuário alterado:\n" +
                 "Usuário: " + usuario);
         limparCampos();
@@ -177,7 +176,6 @@ class JanelaCadastroUsuario extends JFrame {
 
     private void excluirUsuario() {
         String usuario = campoUsuario.getText();
-        // Aqui você pode adicionar a lógica para excluir o usuário
         JOptionPane.showMessageDialog(this, "Usuário excluído:\n" +
                 "Usuário: " + usuario);
         limparCampos();
@@ -185,10 +183,8 @@ class JanelaCadastroUsuario extends JFrame {
 
     private void consultarUsuario() {
         String usuario = campoUsuario.getText();
-        // Aqui você pode adicionar a lógica para consultar o usuário
         JOptionPane.showMessageDialog(this, "Consultando usuário:\n" +
                 "Usuário: " + usuario);
-        // Preencher os campos com os dados do usuário consultado (exemplo)
         campoEmail.setText("email@exemplo.com");
         campoSenha.setText("senha123");
         comboStatus.setSelectedItem("Ativo");
@@ -203,5 +199,186 @@ class JanelaCadastroUsuario extends JFrame {
         campoSenha.setText("");
         campoEmail.setText("");
         comboStatus.setSelectedIndex(0);
+    }
+}
+
+class JanelaCadastroPessoa extends JFrame {
+    private JTextField campoNome;
+    private JTextField campoEndereco;
+    private JTextField campoCidade;
+    private JTextField campoUF;
+    private JTextField campoEmail;
+    private JTextField campoTelefone;
+    private JComboBox<String> comboSexo;
+
+    public JanelaCadastroPessoa() {
+        setTitle("Cadastro de Pessoa");
+        setSize(400, 350);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        // Adiciona componentes à janela com GridBagLayout
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.3;
+        add(new JLabel("Nome:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.7;
+        campoNome = new JTextField();
+        add(campoNome, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        add(new JLabel("Endereço:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        campoEndereco = new JTextField();
+        add(campoEndereco, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        add(new JLabel("Cidade:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        campoCidade = new JTextField();
+        add(campoCidade, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        add(new JLabel("UF:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        campoUF = new JTextField();
+        add(campoUF, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        add(new JLabel("Email:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        campoEmail = new JTextField();
+        add(campoEmail, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        add(new JLabel("Telefone:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        campoTelefone = new JTextField();
+        add(campoTelefone, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        add(new JLabel("Sexo:"), gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        String[] sexoOptions = {"Masculino", "Feminino"};
+        comboSexo = new JComboBox<>(sexoOptions);
+        add(comboSexo, gbc);
+
+        // Botões de ação
+        JPanel panelBotoes = new JPanel();
+        JButton botaoIncluir = new JButton("Incluir");
+        botaoIncluir.addActionListener(e -> incluirPessoa());
+        panelBotoes.add(botaoIncluir);
+
+        JButton botaoAlterar = new JButton("Alterar");
+        botaoAlterar.addActionListener(e -> alterarPessoa());
+        panelBotoes.add(botaoAlterar);
+
+        JButton botaoExcluir = new JButton("Excluir");
+        botaoExcluir.addActionListener(e -> excluirPessoa());
+        panelBotoes.add(botaoExcluir);
+
+        JButton botaoConsultar = new JButton("Consultar");
+        botaoConsultar.addActionListener(e -> consultarPessoa());
+        panelBotoes.add(botaoConsultar);
+
+        JButton botaoCancelar = new JButton("Cancelar");
+        botaoCancelar.addActionListener(e -> cancelarCadastro());
+        panelBotoes.add(botaoCancelar);
+
+        JButton botaoSair = new JButton("Sair");
+        botaoSair.addActionListener(e -> dispose());
+        panelBotoes.add(botaoSair);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        add(panelBotoes, gbc);
+    }
+
+    private void incluirPessoa() {
+        String nome = campoNome.getText();
+        String endereco = campoEndereco.getText();
+        String cidade = campoCidade.getText();
+        String uf = campoUF.getText();
+        String email = campoEmail.getText();
+        String telefone = campoTelefone.getText();
+        String sexo = (String) comboSexo.getSelectedItem();
+        JOptionPane.showMessageDialog(this, "Pessoa incluída:\n" +
+                "Nome: " + nome + "\n" +
+                "Endereço: " + endereco + "\n" +
+                "Cidade: " + cidade + "\n" +
+                "UF: " + uf + "\n" +
+                "Email: " + email + "\n" +
+                "Telefone: " + telefone + "\n" +
+                "Sexo: " + sexo);
+        limparCampos();
+    }
+
+    private void alterarPessoa() {
+        String nome = campoNome.getText();
+        JOptionPane.showMessageDialog(this, "Pessoa alterada:\n" +
+                "Nome: " + nome);
+        limparCampos();
+    }
+
+    private void excluirPessoa() {
+        String nome = campoNome.getText();
+        JOptionPane.showMessageDialog(this, "Pessoa excluída:\n" +
+                "Nome: " + nome);
+        limparCampos();
+    }
+
+    private void consultarPessoa() {
+        String nome = campoNome.getText();
+        JOptionPane.showMessageDialog(this, "Consultando pessoa:\n" +
+                "Nome: " + nome);
+        // Preencher os campos com os dados da pessoa consultada (exemplo)
+        campoEndereco.setText("Rua Exemplo, 123");
+        campoCidade.setText("Cidade Exemplo");
+        campoUF.setText("UF");
+        campoEmail.setText("email@exemplo.com");
+        campoTelefone.setText("123456789");
+        comboSexo.setSelectedItem("Masculino");
+    }
+
+    private void cancelarCadastro() {
+        limparCampos();
+    }
+
+    private void limparCampos() {
+        campoNome.setText("");
+        campoEndereco.setText("");
+        campoCidade.setText("");
+        campoUF.setText("");
+        campoEmail.setText("");
+        campoTelefone.setText("");
+        comboSexo.setSelectedIndex(0);
     }
 }
