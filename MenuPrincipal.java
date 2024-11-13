@@ -66,3 +66,4 @@ public class MenuPrincipal {
         principal.setVisible(true); // Torna a janela visível
     }
 }
+
